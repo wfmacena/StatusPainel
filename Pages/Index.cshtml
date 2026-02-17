@@ -1,0 +1,71 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Status dos Serviços";
+}
+
+<h1 class="page-title">STATUS DOS SERVIÇOS</h1>
+
+<div class="status-container" id="games-container">
+    <!-- Os cards serão carregados via JavaScript -->
+</div>
+
+@section Scripts {
+    <script>
+        async function loadGameStatus() {
+            try {
+                const response = await fetch('/api/gamestatus');
+                const games = await response.json();
+                
+                console.log('Dados recebidos:', games); // Para debug
+                
+                const container = document.getElementById('games-container');
+                container.innerHTML = '';
+                
+                games.forEach(game => {
+                    // Mapeamento dos campos do JSON para o que esperamos
+                    const statusClass = getStatusClass(game.status);
+                    const displayName = game.displayName || game.name; // Se não tiver displayName, usa name
+                    const lastDetection = game.lastDetection || 'Nunca';
+                    const releaseDate = game.releaseDate || 'Data não informada';
+                    
+                    const card = `
+                        <div class="status-card">
+                            <div class="card-header">
+                                <h3>${displayName}</h3>
+                                <span class="status-badge ${statusClass}">${game.status}</span>
+                            </div>
+                            <div class="card-details">
+                                <p><span class="detail-label">Última detecção:</span> ${lastDetection}</p>
+                                <p><span class="detail-label">Lançamento:</span> ${releaseDate}</p>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += card;
+                });
+            } catch (error) {
+                console.error('Erro ao carregar status:', error);
+                document.getElementById('games-container').innerHTML = 
+                    '<p style="color: red; text-align: center;">Erro ao carregar dados. Verifique o console.</p>';
+            }
+        }
+        
+function getStatusClass(status) {
+    switch(status) {
+        case 'Não detectado': return 'status-undetected';  // Verde
+        case 'Atualizado': return 'status-updated';        // Vermelho
+        case 'Testando': return 'status-testing';          // Amarelo
+        case 'Atualizando': return 'status-updating';      // Azul
+        default: return 'status-updated';
+    }
+}
+        
+        // Carrega os status quando a página abrir
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGameStatus();
+        });
+        
+        // Atualiza a cada 30 segundos
+        setInterval(loadGameStatus, 30000);
+    </script>
+}

@@ -1,0 +1,331 @@
+﻿@page
+@model StatusPainel.Pages.AdminModel
+@{
+    ViewData["Title"] = "Administração";
+}
+
+<h1 class="page-title">ADMINISTRAÇÃO - STATUS DOS JOGOS</h1>
+
+<div class="admin-container">
+    <div class="admin-header">
+        <button onclick="salvarTodos()" class="btn-salvar">💾 Salvar Todas as Alterações</button>
+        <button onclick="adicionarJogo()" class="btn-adicionar">➕ Adicionar Novo Jogo</button>
+    </div>
+
+    <div id="jogos-container" class="admin-grid">
+        <!-- Cards serão carregados aqui -->
+    </div>
+</div>
+
+<!-- Modal para Adicionar/Editar Jogo -->
+<div id="modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close" onclick="fecharModal()">&times;</span>
+        <h2 id="modal-titulo">Adicionar Jogo</h2>
+        
+        <input type="hidden" id="jogo-id">
+        
+        <div class="form-group">
+            <label>Nome do Jogo:</label>
+            <input type="text" id="jogo-displayname" class="form-control" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Status:</label>
+            <select id="jogo-status" class="form-control">
+                <option value="Atualizado">Atualizado</option>
+                <option value="Atualizando">Atualizando</option>
+                <option value="Testando">Testando</option>
+                <option value="Não detectado">Não detectado</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label>Última detecção:</label>
+            <input type="text" id="jogo-lastdetection" class="form-control" placeholder="Ex: Há 2 dias ou Nunca" required>
+        </div>
+        
+        <div class="form-group">
+            <label>Data de Lançamento:</label>
+            <input type="text" id="jogo-releasedate" class="form-control" placeholder="Ex: 1º de maio de 2025" required>
+        </div>
+        
+        <div class="modal-buttons">
+            <button onclick="salvarJogo()" class="btn-salvar">Salvar</button>
+            <button onclick="fecharModal()" class="btn-cancelar">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let jogos = [];
+
+        // Carregar jogos ao iniciar a página
+        document.addEventListener('DOMContentLoaded', function() {
+            carregarJogos();
+        });
+
+        async function carregarJogos() {
+            try {
+                const response = await fetch('/api/gamestatus');
+                if (!response.ok) {
+                    throw new Error('Erro ao carregar dados');
+                }
+                jogos = await response.json();
+                renderizarJogos();
+                console.log('Jogos carregados:', jogos.length);
+            } catch (error) {
+                console.error('Erro ao carregar:', error);
+                alert('❌ Erro ao carregar jogos: ' + error.message);
+            }
+        }
+
+        function renderizarJogos() {
+            const container = document.getElementById('jogos-container');
+            container.innerHTML = '';
+            
+            if (jogos.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: #8a93b0;">Nenhum jogo encontrado. Clique em "Adicionar Novo Jogo" para começar.</p>';
+                return;
+            }
+            
+            jogos.forEach(jogo => {
+                const card = document.createElement('div');
+                card.className = 'admin-card';
+                card.dataset.id = jogo.id;
+                
+                card.innerHTML = `
+                    <div class="admin-card-header">
+                        <h3>${jogo.displayName || jogo.name}</h3>
+                        <div class="admin-card-actions">
+                            <button onclick="editarJogo(${jogo.id})" class="btn-editar" title="Editar">✏️</button>
+                            <button onclick="deletarJogo(${jogo.id})" class="btn-deletar" title="Deletar">🗑️</button>
+                        </div>
+                    </div>
+                    <div class="admin-card-body">
+                        <p>
+                            <strong>Status:</strong> 
+                            <select onchange="atualizarStatus(${jogo.id}, this.value)" class="status-select">
+                                <option value="Atualizado" ${jogo.status === 'Atualizado' ? 'selected' : ''}>Atualizado</option>
+                                <option value="Atualizando" ${jogo.status === 'Atualizando' ? 'selected' : ''}>Atualizando</option>
+                                <option value="Testando" ${jogo.status === 'Testando' ? 'selected' : ''}>Testando</option>
+                                <option value="Não detectado" ${jogo.status === 'Não detectado' ? 'selected' : ''}>Não detectado</option>
+                            </select>
+                        </p>
+                        <p>
+                            <strong>Última detecção:</strong> 
+                            <input type="text" value="${jogo.lastDetection || 'Nunca'}" 
+                                   onchange="atualizarDetecção(${jogo.id}, this.value)" 
+                                   class="campo-texto" 
+                                   placeholder="Ex: Há 2 dias">
+                        </p>
+                        <p>
+                            <strong>Lançamento:</strong> 
+                            <input type="text" value="${jogo.releaseDate || ''}" 
+                                   onchange="atualizarLançamento(${jogo.id}, this.value)" 
+                                   class="campo-texto" 
+                                   placeholder="Ex: 1º de maio de 2025">
+                        </p>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function atualizarStatus(id, novoStatus) {
+            const jogo = jogos.find(j => j.id === id);
+            if (jogo) {
+                jogo.status = novoStatus;
+                console.log(`Status do jogo ${jogo.displayName} atualizado para: ${novoStatus}`);
+            }
+        }
+
+        function atualizarDetecção(id, valor) {
+            const jogo = jogos.find(j => j.id === id);
+            if (jogo) {
+                jogo.lastDetection = valor;
+                console.log(`Detecção do jogo ${jogo.displayName} atualizada para: ${valor}`);
+            }
+        }
+
+        function atualizarLançamento(id, valor) {
+            const jogo = jogos.find(j => j.id === id);
+            if (jogo) {
+                jogo.releaseDate = valor;
+                console.log(`Lançamento do jogo ${jogo.displayName} atualizado para: ${valor}`);
+            }
+        }
+
+        function editarJogo(id) {
+            const jogo = jogos.find(j => j.id === id);
+            if (!jogo) return;
+            
+            document.getElementById('modal-titulo').textContent = 'Editar Jogo';
+            document.getElementById('jogo-id').value = jogo.id;
+            document.getElementById('jogo-displayname').value = jogo.displayName || jogo.name;
+            document.getElementById('jogo-status').value = jogo.status;
+            document.getElementById('jogo-lastdetection').value = jogo.lastDetection || 'Nunca';
+            document.getElementById('jogo-releasedate').value = jogo.releaseDate || '';
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function adicionarJogo() {
+            document.getElementById('modal-titulo').textContent = 'Adicionar Novo Jogo';
+            document.getElementById('jogo-id').value = '';
+            document.getElementById('jogo-displayname').value = '';
+            document.getElementById('jogo-status').value = 'Atualizado';
+            document.getElementById('jogo-lastdetection').value = 'Nunca';
+            document.getElementById('jogo-releasedate').value = '';
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function fecharModal() {
+            document.getElementById('modal').style.display = 'none';
+            // Limpar campos do formulário
+            document.getElementById('jogo-id').value = '';
+            document.getElementById('jogo-displayname').value = '';
+            document.getElementById('jogo-status').value = 'Atualizado';
+            document.getElementById('jogo-lastdetection').value = 'Nunca';
+            document.getElementById('jogo-releasedate').value = '';
+        }
+
+        async function salvarJogo() {
+            try {
+                const id = document.getElementById('jogo-id').value;
+                const displayName = document.getElementById('jogo-displayname').value.trim();
+                const status = document.getElementById('jogo-status').value;
+                const lastDetection = document.getElementById('jogo-lastdetection').value.trim();
+                const releaseDate = document.getElementById('jogo-releasedate').value.trim();
+
+                // Validação
+                if (!displayName || !releaseDate) {
+                    alert('Por favor, preencha todos os campos obrigatórios!');
+                    return;
+                }
+
+                if (id) {
+                    // EDITAR jogo existente
+                    const jogo = jogos.find(j => j.id == id);
+                    if (!jogo) return;
+                    
+                    // Atualizar objeto local
+                    jogo.displayName = displayName;
+                    jogo.name = displayName.replace(/\s+/g, '');
+                    jogo.status = status;
+                    jogo.lastDetection = lastDetection;
+                    jogo.releaseDate = releaseDate;
+                    
+                    // Salvar no servidor
+                    const response = await fetch(`/api/gamestatus/${id}/update`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            status: status, 
+                            lastDetection: lastDetection 
+                        })
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Erro ao salvar no servidor');
+                    }
+                    
+                    alert('✅ Jogo atualizado com sucesso!');
+                } else {
+                    // ADICIONAR novo jogo
+                    const novoJogo = {
+                        name: displayName.replace(/\s+/g, ''),
+                        displayName: displayName,
+                        status: status,
+                        lastDetection: lastDetection,
+                        releaseDate: releaseDate,
+                        isOnline: false
+                    };
+                    
+                    const response = await fetch('/api/gamestatus/adicionar', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(novoJogo)
+                    });
+                    
+                    if (!response.ok) {
+                        throw new Error('Erro ao adicionar jogo');
+                    }
+                    
+                    const resultado = await response.json();
+                    jogos.push(resultado.jogo);
+                    alert('✅ Jogo adicionado com sucesso!');
+                }
+
+                renderizarJogos();
+                fecharModal();
+                
+            } catch (error) {
+                console.error('Erro ao salvar jogo:', error);
+                alert('❌ Erro ao salvar: ' + error.message);
+            }
+        }
+
+        async function deletarJogo(id) {
+            if (!confirm('Tem certeza que deseja deletar este jogo?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/gamestatus/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) {
+                    throw new Error('Erro ao deletar jogo');
+                }
+                
+                jogos = jogos.filter(j => j.id !== id);
+                renderizarJogos();
+                alert('✅ Jogo deletado com sucesso!');
+                
+            } catch (error) {
+                console.error('Erro ao deletar:', error);
+                alert('❌ Erro ao deletar: ' + error.message);
+            }
+        }
+
+        async function salvarTodos() {
+            try {
+                if (jogos.length === 0) {
+                    alert('Não há jogos para salvar!');
+                    return;
+                }
+                
+                const response = await fetch('/api/gamestatus/salvar-todos', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(jogos)
+                });
+                
+                const resultado = await response.json();
+                
+                if (response.ok) {
+                    alert('✅ ' + resultado.message);
+                    // Recarregar dados do servidor para garantir consistência
+                    await carregarJogos();
+                } else {
+                    alert('❌ Erro: ' + (resultado.error || 'Erro desconhecido'));
+                }
+            } catch (error) {
+                console.error('Erro ao salvar todos:', error);
+                alert('❌ Erro ao salvar: ' + error.message);
+            }
+        }
+
+        // Fechar modal ao clicar fora dele
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target === modal) {
+                fecharModal();
+            }
+        }
+    </script>
+}

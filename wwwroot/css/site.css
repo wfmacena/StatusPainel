@@ -1,0 +1,481 @@
+/* site.css - Estilos para o painel de status */
+
+/* Reset completo */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    background-color: #0f1220;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Header/Navbar */
+.navbar {
+    background-color: #1a1f35;
+    border-bottom: 1px solid #2a3150;
+    padding: 1rem 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.nav-brand {
+    color: #0bff88;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+    .nav-link:hover {
+        color: #0bff88;
+    }
+
+/* Main content - ocupa todo espaço disponível */
+main {
+    flex: 1;
+    width: 100%;
+    padding: 20px;
+}
+
+/* Título da página */
+.page-title {
+    text-align: center;
+    margin: 30px 0 40px 0;
+    color: #ffffff;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-size: 2rem;
+}
+
+/* Container com Grid - 3 colunas */
+.status-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Estilo do Card */
+.status-card {
+    background: #1a1f35;
+    padding: 20px;
+    border-radius: 12px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    border: 1px solid #2a3150;
+    display: flex;
+    flex-direction: column;
+}
+
+    .status-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
+        border-color: #3a4270;
+    }
+
+/* Cabeçalho do Card com título e badges */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+    .card-header h3 {
+        margin: 0;
+        color: #ffffff;
+        font-size: 1.2rem;
+        font-weight: 500;
+    }
+
+/* ===== NOVAS CORES DOS BADGES ===== */
+/* Não detectado = VERDE */
+.status-undetected {
+    background: #0bff88;
+    color: black;
+    font-weight: bold;
+}
+
+/* Atualizado = VERMELHO */
+.status-updated {
+    background: #ff3b0b;
+    color: white;
+    font-weight: bold;
+}
+
+/* Testando = AMARELO */
+.status-testing {
+    background: #ffaa0b;
+    color: black;
+    font-weight: bold;
+}
+
+/* Atualizando = AZUL (mantive igual) */
+.status-updating {
+    background: #0b88ff;
+    color: white;
+    font-weight: bold;
+}
+
+/* Estilo base dos badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+/* Detalhes do card */
+.card-details {
+    border-top: 1px solid #2a3150;
+    padding-top: 15px;
+    margin-top: auto;
+}
+
+    .card-details p {
+        margin: 8px 0;
+        font-size: 0.9rem;
+        color: #b0b5c0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+.detail-label {
+    color: #8a93b0;
+    font-weight: 500;
+}
+
+/* ========== ESTILOS DA PÁGINA ADMIN ========== */
+.admin-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.admin-header {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    justify-content: flex-end;
+}
+
+/* Botões Admin */
+.btn-salvar, .btn-adicionar, .btn-editar, .btn-deletar, .btn-cancelar {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s;
+}
+
+.btn-salvar {
+    background: #0bff88;
+    color: black;
+}
+
+    .btn-salvar:hover {
+        background: #00cc6a;
+    }
+
+.btn-adicionar {
+    background: #0b88ff;
+    color: white;
+}
+
+    .btn-adicionar:hover {
+        background: #0066cc;
+    }
+
+.btn-editar {
+    background: #ffaa0b;
+    color: black;
+    padding: 5px 10px;
+    margin-right: 5px;
+}
+
+    .btn-editar:hover {
+        background: #cc8800;
+    }
+
+.btn-deletar {
+    background: #ff3b0b;
+    color: white;
+    padding: 5px 10px;
+}
+
+    .btn-deletar:hover {
+        background: #cc2f00;
+    }
+
+.btn-cancelar {
+    background: #6c757d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+    .btn-cancelar:hover {
+        background: #545b62;
+    }
+
+/* Grid Admin */
+.admin-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+/* Cards Admin */
+.admin-card {
+    background: #1a1f35;
+    border: 1px solid #2a3150;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.admin-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #2a3150;
+}
+
+    .admin-card-header h3 {
+        margin: 0;
+        color: white;
+        font-size: 1.1rem;
+    }
+
+.admin-card-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.admin-card-body p {
+    margin: 10px 0;
+    color: #b0b5c0;
+}
+
+/* Campos de edição Admin */
+.status-select, .campo-texto {
+    background: #0f1220;
+    color: white;
+    border: 1px solid #2a3150;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+    margin-top: 5px;
+    font-size: 0.9rem;
+}
+
+    .status-select:focus, .campo-texto:focus {
+        outline: none;
+        border-color: #0b88ff;
+    }
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background: #1a1f35;
+    margin: 20px;
+    padding: 30px;
+    max-width: 500px;
+    width: 90%;
+    border-radius: 10px;
+    border: 1px solid #2a3150;
+    position: relative;
+    animation: modalFadeIn 0.3s;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #8a93b0;
+    transition: color 0.3s;
+}
+
+    .close:hover {
+        color: white;
+    }
+
+/* Formulário Modal */
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #8a93b0;
+        font-size: 0.9rem;
+    }
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    background: #0f1220;
+    border: 1px solid #2a3150;
+    color: white;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+    .form-control:focus {
+        outline: none;
+        border-color: #0b88ff;
+    }
+
+.modal-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 30px;
+}
+
+/* Footer */
+footer {
+    background-color: #1a1f35;
+    border-top: 1px solid #2a3150;
+    padding: 1rem 0;
+    margin-top: auto;
+    text-align: center;
+    color: #8a93b0;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+footer a {
+    color: #0bff88;
+    text-decoration: none;
+}
+
+    footer a:hover {
+        text-decoration: underline;
+    }
+
+/* Responsividade */
+@media (max-width: 900px) {
+    .status-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .status-container {
+        grid-template-columns: 1fr;
+    }
+
+    .card-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .admin-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-content {
+        margin: 10px;
+        padding: 20px;
+    }
+
+    .nav-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* Utilitários */
+.text-center {
+    text-align: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}

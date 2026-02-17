@@ -1,0 +1,122 @@
+[
+  {
+    "Id": 1,
+    "Name": "Invasores ARC",
+    "DisplayName": "Invasores ARC",
+    "LastDetection": "H\u00E1 18 dias",
+    "ReleaseDate": "1\u00BA de maio de 2025",
+    "Status": "N\u00E3o detectado",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 2,
+    "Name": "Arau Reforger",
+    "DisplayName": "Arau Reforger",
+    "LastDetection": "Nunca",
+    "ReleaseDate": "31 de janeiro de 2025",
+    "Status": "N\u00E3o detectado",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 3,
+    "Name": "Apex Legends",
+    "DisplayName": "Apex Legends",
+    "LastDetection": "H\u00E1 20 meses",
+    "ReleaseDate": "11 de setembro de 2021",
+    "Status": "Testando",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 4,
+    "Name": "Invasores ARG",
+    "DisplayName": "Invasores ARG",
+    "LastDetection": "H\u00E1 21 dias",
+    "ReleaseDate": "1\u00BA de maio de 2025",
+    "Status": "Atualizado",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 5,
+    "Name": "Amma Reforger",
+    "DisplayName": "Amma Reforger",
+    "LastDetection": "Nunca",
+    "ReleaseDate": "31 de janeiro de 2025",
+    "Status": "Atualizado",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 6,
+    "Name": "Black Ops 6",
+    "DisplayName": "Black Ops 6",
+    "LastDetection": "Nunca",
+    "ReleaseDate": "30 de agosto de 2024",
+    "Status": "Atualizado",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 7,
+    "Name": "Black Ops 7",
+    "DisplayName": "Black Ops 7",
+    "LastDetection": "Nunca",
+    "ReleaseDate": "2 de setembro de 2025",
+    "Status": "Atualizado",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 8,
+    "Name": "CS2",
+    "DisplayName": "CS: Counter-Strike 2",
+    "LastDetection": "Nunca",
+    "ReleaseDate": "1\u00BA de setembro de 2023",
+    "Status": "Atualizado",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 9,
+    "Name": "DayZ",
+    "DisplayName": "MYZ: DayZ",
+    "LastDetection": "H\u00E1 25 meses",
+    "ReleaseDate": "29 de agosto de 2022",
+    "Status": "Atualizado",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 10,
+    "Name": "Escape from Tarkov",
+    "DisplayName": "TROPHY: Escape from Tarkov",
+    "LastDetection": "H\u00E1 25 meses",
+    "ReleaseDate": "4 de dezembro de 2022",
+    "Status": "Atualizado",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 11,
+    "Name": "Marvel Rivals",
+    "DisplayName": "Rivals da Marvel",
+    "LastDetection": "Nunca",
+    "ReleaseDate": "26 de janeiro de 2025",
+    "Status": "Testando",
+    "LastCheck": null,
+    "IsOnline": false
+  },
+  {
+    "Id": 12,
+    "Name": "Modern Warfare III",
+    "DisplayName": "Modern Warfare III",
+    "LastDetection": "H\u00E1 29 meses",
+    "ReleaseDate": "12 de outubro de 2023",
+    "Status": "Atualizado",
+    "LastCheck": null,
+    "IsOnline": false
+  }
+]
