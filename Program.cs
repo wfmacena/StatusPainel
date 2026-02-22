@@ -6,9 +6,13 @@ using StatusPainel.Data;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("StatusPainelContextConnection") ?? throw new InvalidOperationException("Connection string 'StatusPainelContextConnection' not found.");
 
-builder.Services.AddDbContext<StatusPainelContext>(options => options.UseSqlServer(connectionString));
+// ALTERADO: StatusPainelContext → ApplicationDbContext
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<StatusPainelContext>();
+// ALTERADO: StatusPainelContext → ApplicationDbContext
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>() // ADICIONADO para suporte a roles
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -18,7 +22,7 @@ builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<GameStatusService>();
 
-// Adiciona servi�o em background para atualiza��es autom�ticas
+// Adiciona serviço em background para atualizações automáticas
 builder.Services.AddHostedService<GameStatusBackgroundService>();
 
 var app = builder.Build();
@@ -35,6 +39,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();  // ADICIONADO - estava faltando!
 app.UseAuthorization();
 
 app.MapRazorPages();
