@@ -11,8 +11,15 @@ builder.Services.AddDbContext<StatusPainelContext>(options => options.UseSqlServ
 // Registrar identidade com suporte a roles
 builder.Services
     .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddRoles<IdentityRole>() // Corrige erro: registra RoleManager e suporte a roles
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<StatusPainelContext>();
+
+// Configurar cookie de autenticação
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Identity/Account/Login";
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -39,8 +46,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// ⚠️ ORDEM CORRETA É FUNDAMENTAL!
-app.UseAuthentication();  // <-- ESTAVA FALTANDO!
+// ORDEM CORRETA - Authentication antes de Authorization
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
@@ -60,7 +67,7 @@ using (var scope = app.Services.CreateScope())
 
     // 2. Cria o usuário admin se ele não existir
     string adminEmail = "admin@statuspainel.com";
-    string adminPassword = "Admin@123456"; // Use uma senha forte!
+    string adminPassword = "Admin@123456";
 
     if (await userManager.FindByEmailAsync(adminEmail) == null)
     {
@@ -68,13 +75,12 @@ using (var scope = app.Services.CreateScope())
         {
             UserName = adminEmail,
             Email = adminEmail,
-            EmailConfirmed = true // Para simplificar, confirmamos o email automaticamente
+            EmailConfirmed = true
         };
 
         var result = await userManager.CreateAsync(adminUser, adminPassword);
         if (result.Succeeded)
         {
-            // Adiciona o usuário à role "Admin"
             await userManager.AddToRoleAsync(adminUser, roleName);
         }
     }

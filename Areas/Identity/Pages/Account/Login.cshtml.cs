@@ -47,10 +47,7 @@ namespace StatusPainel.Areas.Identity.Pages.Account
             }
 
             returnUrl ??= Url.Content("~/");
-
-            // Limpa qualquer cookie de login externo existente
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-
             ReturnUrl = returnUrl;
         }
 
@@ -60,7 +57,6 @@ namespace StatusPainel.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
-                // Tenta fazer o login
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
@@ -86,7 +82,6 @@ namespace StatusPainel.Areas.Identity.Pages.Account
                 }
             }
 
-            // Se chegou aqui, algo falhou. Redisplay o formulário.
             return Page();
         }
     }
