@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace StatusPainel.Pages
 {
-    [Authorize(Roles = "Admin")]
     public class AdminModel : PageModel
     {
         private readonly ILogger<AdminModel> _logger;
@@ -13,10 +11,8 @@ namespace StatusPainel.Pages
             _logger = logger;
         }
 
-        public async Task OnGetAsync()
+        public void OnGet()
         {
-            // Lógica para carregar dados da página Admin
-            await Task.CompletedTask;
         }
     }
 }
