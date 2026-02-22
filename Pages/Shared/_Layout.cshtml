@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - StatusPainel</title>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
 <body>
     <header>
@@ -13,7 +14,13 @@
                 <a class="nav-brand" asp-area="" asp-page="/Index">StatusPainel</a>
                 <div class="nav-links">
                     <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
-                   <!--  <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a> --> 
+                    
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="nav-link" asp-area="" asp-page="/Admin">Admin</a>
+                    }
+                    
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
@@ -27,15 +34,10 @@
         <div class="footer-container">
             &copy; 2026 - StatusPainel - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
-        <div class="nav-links">
-    <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
-   <!--  <a class="nav-link" asp-area="" asp-page="/Admin">Admin</a> -->
-    <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
-
-</div>
     </footer>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

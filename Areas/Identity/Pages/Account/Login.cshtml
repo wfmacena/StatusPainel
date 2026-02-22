@@ -1,0 +1,82 @@
+﻿@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login Administrativo";
+}
+
+<div class="login-wrapper">
+    <div class="login-container">
+        <!-- Cabeçalho com ícone -->
+        <div class="login-header">
+            <div class="login-icon">
+                <i class="fas fa-lock"></i>
+            </div>
+            <h2>Acesso Administrativo</h2>
+            <p>Faça login para gerenciar o painel</p>
+        </div>
+
+        <!-- Formulário -->
+        <form method="post" novalidate>
+            <input type="hidden" asp-for="ReturnUrl" />
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <!-- Campo de Email -->
+            <div class="form-group">
+                <label asp-for="Input.Email">
+                    <i class="fas fa-envelope"></i> E-mail
+                </label>
+                <div class="input-wrapper">
+                    <input asp-for="Input.Email" class="form-control" placeholder="admin@statuspainel.com" />
+                </div>
+                <span asp-validation-for="Input.Email" class="field-validation-error"></span>
+            </div>
+
+            <!-- Campo de Senha -->
+            <div class="form-group">
+                <label asp-for="Input.Password">
+                    <i class="fas fa-lock"></i> Senha
+                </label>
+                <div class="input-wrapper">
+                    <input asp-for="Input.Password" type="password" class="form-control" placeholder="••••••••" />
+                </div>
+                <span asp-validation-for="Input.Password" class="field-validation-error"></span>
+            </div>
+
+            <!-- Lembrar-me e Esqueci senha -->
+            <div class="form-row">
+                <div class="checkbox-group">
+                    <label class="checkbox-label">
+                        <input asp-for="Input.RememberMe" type="checkbox" />
+                        <span class="checkbox-custom"></span>
+                        <span class="checkbox-text">Lembrar-me</span>
+                    </label>
+                </div>
+
+                <div class="forgot-password">
+                    <a href="#" class="auth-link">Esqueceu a senha?</a>
+                </div>
+            </div>
+
+            <!-- Botão de Login -->
+            <button type="submit" class="auth-button login-button">
+                <i class="fas fa-sign-in-alt"></i>
+                Entrar no Painel
+            </button>
+
+            <!-- Link para registro -->
+            <div class="auth-footer">
+                <p>Não tem uma conta? <a asp-page="./Register" class="auth-link">Solicitar acesso</a></p>
+            </div>
+
+            <!-- Selo de segurança -->
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Ambiente seguro com criptografia</span>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

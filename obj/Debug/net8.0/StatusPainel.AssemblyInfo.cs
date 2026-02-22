@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StatusPainel")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+17f9dedff81e8828cff3e90b1a6798cb5ce69f81")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+93b21a5e6fef28782d1b2d8d2578fec8f77a5266")]
 [assembly: System.Reflection.AssemblyProductAttribute("StatusPainel")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StatusPainel")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

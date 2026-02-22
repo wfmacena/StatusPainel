@@ -1,0 +1,81 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Registrar";
+}
+
+<div class="auth-wrapper">
+    <div class="auth-container">
+        <div class="auth-header">
+            <div class="auth-logo">
+                <i class="fas fa-gamepad"></i>
+                <h2>StatusPainel</h2>
+            </div>
+            <h1 class="auth-title">Crie sua conta</h1>
+            <p class="auth-subtitle">Comece a gerenciar seus status</p>
+        </div>
+
+        <div class="auth-card">
+            <form method="post" novalidate>
+                <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Email">
+                        <i class="fas fa-envelope"></i> E-mail
+                    </label>
+                    <div class="input-wrapper">
+                        <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="seu@email.com" />
+                        <span asp-validation-for="Input.Email" class="field-validation-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Password">
+                        <i class="fas fa-lock"></i> Senha
+                    </label>
+                    <div class="input-wrapper">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" placeholder="••••••••" />
+                        <span asp-validation-for="Input.Password" class="field-validation-error"></span>
+                    </div>
+                    <small class="password-hint">Mínimo de 6 caracteres</small>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.ConfirmPassword">
+                        <i class="fas fa-lock"></i> Confirmar Senha
+                    </label>
+                    <div class="input-wrapper">
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" placeholder="••••••••" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="field-validation-error"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="auth-button">
+                    <span>Registrar</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="auth-footer">
+            <p>Já tem uma conta?</p>
+            <a asp-page="./Login" class="auth-link">
+                Fazer login
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+
+    <div class="auth-decoration">
+        <div class="decoration-content">
+            <i class="fas fa-gamepad"></i>
+            <i class="fas fa-cog"></i>
+            <i class="fas fa-chart-line"></i>
+            <i class="fas fa-users"></i>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
