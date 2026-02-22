@@ -6,7 +6,6 @@ namespace StatusPainel.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
     public class HealthController : ControllerBase
     {
         [HttpGet]
@@ -22,7 +21,9 @@ namespace StatusPainel.Controllers
         }
     }
 
-public class GameStatusController : ControllerBase
+    [ApiController]
+    [Route("api/[controller]")]
+    public class GameStatusController : ControllerBase
     {
         private readonly GameStatusService _gameStatusService;
 
@@ -44,7 +45,6 @@ public class GameStatusController : ControllerBase
             var game = _gameStatusService.GetAllGames().FirstOrDefault(g => g.Id == id);
             if (game == null)
                 return NotFound();
-
             return Ok(game);
         }
 
@@ -107,7 +107,7 @@ public class GameStatusController : ControllerBase
 
     public class UpdateStatusRequest
     {
-        public string Status { get; set; }
-        public string LastDetection { get; set; }
+        public string Status { get; set; } = string.Empty;
+        public string LastDetection { get; set; } = string.Empty;
     }
 }
