@@ -1,6 +1,14 @@
 using StatusPainel.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using StatusPainel.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("StatusPainelContextConnection") ?? throw new InvalidOperationException("Connection string 'StatusPainelContextConnection' not found.");
+
+builder.Services.AddDbContext<StatusPainelContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<StatusPainelContext>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -10,7 +18,7 @@ builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<GameStatusService>();
 
-// Adiciona serviço em background para atualizações automáticas
+// Adiciona serviï¿½o em background para atualizaï¿½ï¿½es automï¿½ticas
 builder.Services.AddHostedService<GameStatusBackgroundService>();
 
 var app = builder.Build();
@@ -31,5 +39,39 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+    // 1. Cria a role "Admin" se ela nÃ£o existir
+    string roleName = "Admin";
+    if (!await roleManager.RoleExistsAsync(roleName))
+    {
+        await roleManager.CreateAsync(new IdentityRole(roleName));
+    }
+
+    // 2. Cria o usuÃ¡rio admin se ele nÃ£o existir
+    string adminEmail = "admin@statuspainel.com";
+    string adminPassword = "Admin@123456"; // Use uma senha forte!
+
+    if (await userManager.FindByEmailAsync(adminEmail) == null)
+    {
+        var adminUser = new IdentityUser
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            EmailConfirmed = true // Para simplificar, confirmamos o email automaticamente
+        };
+
+        var result = await userManager.CreateAsync(adminUser, adminPassword);
+        if (result.Succeeded)
+        {
+            // Adiciona o usuÃ¡rio Ã  role "Admin"
+            await userManager.AddToRoleAsync(adminUser, roleName);
+        }
+    }
+}
 
 app.Run();
