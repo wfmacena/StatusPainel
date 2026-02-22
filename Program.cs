@@ -8,7 +8,11 @@ var connectionString = builder.Configuration.GetConnectionString("StatusPainelCo
 
 builder.Services.AddDbContext<StatusPainelContext>(options => options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<StatusPainelContext>();
+// Registrar identidade com suporte a roles
+builder.Services
+    .AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>() // Corrige erro: registra RoleManager e suporte a roles
+    .AddEntityFrameworkStores<StatusPainelContext>();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -18,7 +22,7 @@ builder.Services.AddControllers();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<GameStatusService>();
 
-// Adiciona servi�o em background para atualiza��es autom�ticas
+// Adiciona serviço em background para atualizações automáticas
 builder.Services.AddHostedService<GameStatusBackgroundService>();
 
 var app = builder.Build();
@@ -35,6 +39,8 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// ⚠️ ORDEM CORRETA É FUNDAMENTAL!
+app.UseAuthentication();  // <-- ESTAVA FALTANDO!
 app.UseAuthorization();
 
 app.MapRazorPages();

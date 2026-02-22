@@ -13,7 +13,14 @@
                 <a class="nav-brand" asp-area="" asp-page="/Index">StatusPainel</a>
                 <div class="nav-links">
                     <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
-                    <!-- <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a> -->
+                    <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a>
+                    
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Admin"))
+                    {
+                        <a class="nav-link" asp-area="" asp-page="/Admin">Admin</a>
+                    }
+                    
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
@@ -27,11 +34,6 @@
         <div class="footer-container">
             &copy; 2026 - StatusPainel - <a asp-area="" asp-page="/Privacy">Privacy</a>
         </div>
-        <div class="nav-links">
-   <!-- <a class="nav-link" asp-area="" asp-page="/Index">Home</a> -->
-   <!-- <a class="nav-link" asp-area="" asp-page="/Admin">Admin</a> -->
-   <!-- <a class="nav-link" asp-area="" asp-page="/Privacy">Privacy</a> -->
-</div>
     </footer>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
