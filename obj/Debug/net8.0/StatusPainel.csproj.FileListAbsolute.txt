@@ -132,3 +132,4 @@ C:\Users\User\source\repos\StatusPainel\StatusPainel\obj\Debug\net8.0\refint\Sta
 C:\Users\User\source\repos\StatusPainel\StatusPainel\obj\Debug\net8.0\StatusPainel.pdb
 C:\Users\User\source\repos\StatusPainel\StatusPainel\obj\Debug\net8.0\StatusPainel.genruntimeconfig.cache
 C:\Users\User\source\repos\StatusPainel\StatusPainel\obj\Debug\net8.0\ref\StatusPainel.dll
+C:\Users\User\source\repos\StatusPainel\StatusPainel\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

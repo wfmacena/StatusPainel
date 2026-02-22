@@ -6,7 +6,23 @@ namespace StatusPainel.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class GameStatusController : ControllerBase
+
+    public class HealthController : ControllerBase
+    {
+        [HttpGet]
+        public IActionResult Get()
+        {
+            return Ok(new { status = "healthy", timestamp = DateTime.Now });
+        }
+
+        [HttpGet("ping")]
+        public IActionResult Ping()
+        {
+            return Ok("pong");
+        }
+    }
+
+public class GameStatusController : ControllerBase
     {
         private readonly GameStatusService _gameStatusService;
 
